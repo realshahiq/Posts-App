@@ -8,7 +8,8 @@ class Posts extends Component {
   state = {
     posts: [],
     selectedPostID: null,
-    error: false
+    error: false,
+    loading: true
   }
   componentDidMount() {
     axios.get('/posts')
@@ -22,10 +23,11 @@ class Posts extends Component {
           // Appended author in response
         });
         this.setState({ posts: updatedPosts });
-        // console.log(response);
+        this.setState({ loading: false })
       })
       .catch(error => {
         this.setState({ error: true });
+        this.setState({ loading: false })
       });
   }
   postSelectedHandler = (id) => {
@@ -33,12 +35,15 @@ class Posts extends Component {
   }
   render() {
     let posts = <p>Something went Wrong!!!</p>
-    if (!this.state.error) {
+    if (!this.state.error && !this.state.loading) {
       posts = this.state.posts.map(post =>
         <Link to={'/' + post.id} key={post.id}>
           <Post clicked={() => this.postSelectedHandler(post.id)} key={post.id} title={post.title} author={post.author} />
         </Link>
       )
+    }
+    if(this.state.loading) {
+      posts = <p>Loading...</p>
     }
     return (
       <section className="Posts">
