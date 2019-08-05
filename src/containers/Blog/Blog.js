@@ -13,7 +13,7 @@ class Blog extends Component {
             <ul>
               <li><Link to="/" className="active">Home</Link></li>
               <li><Link to={{
-                pathname: "/",
+                pathname: "/new-post",
                 hash: '#submit',
                 search: '?quick-search=true'
               }}>New Post</Link></li>
